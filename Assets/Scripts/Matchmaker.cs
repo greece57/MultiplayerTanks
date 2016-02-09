@@ -57,6 +57,13 @@ public class Matchmaker : Singleton<Matchmaker> {
         PhotonNetwork.CreateRoom(null, new RoomOptions() { maxPlayers = 2 }, TypedLobby.Default);
     }
 
+    void OnCreatedRoom()
+    {
+        string[] roomPropsInLobby = { "boardSize" };
+        ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "boardSize", 10 } };
+        PhotonNetwork.room.SetCustomProperties(customRoomProperties);
+    }
+
     void OnJoinedRoom()
     {
         if (PhotonNetwork.room.playerCount == 2)

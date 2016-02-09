@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Random = UnityEngine.Random;      //Tells Random to use the Unity Engine random number generator.
 using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
@@ -6,27 +7,56 @@ public class BoardManager : MonoBehaviour {
     public int boardRows;
     public int boardColumns;
 
-    public GameObject boardTile;
-
     private Transform boardHolder;
+    private List<Vector2> obsticals;
 
-	public void CreateBoard(int rows, int columns)
+    public void Init(int rows, int columns)
     {
-        boardHolder = new GameObject("Board").transform;
-
         boardRows = rows;
         boardColumns = columns;
+
+        obsticals = new List<Vector2>();
+    }
+
+	public void CreateBoard()
+    {
+        boardHolder = new GameObject("Board").transform;
 
         for (int x = 0; x <= boardRows; x++)
         {
             for (int y = 0; y <= boardColumns; y++)
             {
-                GameObject instance =
-                        Instantiate(boardTile, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
+                Vector2 newPosition = new Vector2(x, y);
+
+                GameObject instance;
+                if (obsticals.Contains(newPosition))
+                {
+                    instance =
+                            PhotonNetwork.Instantiate("BoardTileObstical", new Vector3(x, y, 0f), Quaternion.identity, 0) as GameObject;
+                }
+                else
+                {
+                    instance =
+                            PhotonNetwork.Instantiate("BoardTile", new Vector3(x, y, 0f), Quaternion.identity, 0) as GameObject;
+                }
 
                 instance.transform.SetParent(boardHolder);
             }
         }
 
+    }
+
+    public void CreateObsticals()
+    {
+        int maxObsticals = (int) (boardRows * boardColumns * 0.05);
+        int countObsticals = Random.Range(1, maxObsticals);
+        for (int i = 0; i < countObsticals; i++)
+        {
+            Vector2 newObstical = new Vector2(Random.Range(0, boardRows), Random.Range(0, boardColumns));
+            if (!obsticals.Contains(newObstical))
+            {
+                obsticals.Add(newObstical);
+            }
+        }
     }
 }
