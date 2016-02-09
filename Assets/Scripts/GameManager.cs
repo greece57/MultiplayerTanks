@@ -5,15 +5,23 @@ public class GameManager : Singleton<GameManager> {
 
     protected GameManager() {}
 
-	// Use this for initialization
-	void Start () {
+    private BoardManager boardManager;
 
+	// Use this for initialization
+	void Awake () {
+        boardManager = GetComponent<BoardManager>();
+        InitGame();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 	}
+
+    private void InitGame()
+    {
+        boardManager.CreateBoard(10, 10);
+    }
 
     /*
      * public Methods
