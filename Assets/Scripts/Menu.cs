@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Menu : MonoBehaviour {
+public class Menu : Singleton<Menu> {
+
+    protected Menu() {}
 
     private string CurMenu;
     private string JoinProgress;
-
-    public static Menu Instance;
+    private string Message;
 
 	// Use this for initialization
 	void Start () {
-        Instance = this;
         CurMenu = "Main";
+        Message = "";
 	}
 	
 	// Update is called once per frame
@@ -27,9 +28,14 @@ public class Menu : MonoBehaviour {
         JoinProgress = newProgress;
     }
 
-    public void StartGame()
+    public void showMessage(string message)
     {
+        Message = message;
+    }
 
+    public void ToMenu(string menu)
+    {
+        CurMenu = menu;
     }
     
 
@@ -37,27 +43,31 @@ public class Menu : MonoBehaviour {
      * Private Methods
      */
 
-    void ToMenu(string menu)
-    {
-        CurMenu = menu;
-    }
-
     void OnGUI() {
         if (CurMenu == "Main")
-            Main();
+        {
+            if (GUI.Button(new Rect(0, 0, 128, 32), "Start"))
+            {
+                ToMenu("Lobby");
+            }
+        }
         if (CurMenu == "Lobby")
             Lobby();
         if (CurMenu == "Joining")
             Joining();
+
+        if (!Message.Equals(""))
+        {
+            GUI.Window(0, new Rect(Screen.width/2 - 128, Screen.height/2 - 32, 256, 64), HandleWindow, Message);
+        }
     }
 
-    private void Main()
+    private void HandleWindow(int windowID)
     {
-        if (GUI.Button(new Rect(0, 0, 128, 32), "Start"))
+        if (GUI.Button(new Rect(128-16, 64-24, 32, 16), "OK"))
         {
-            ToMenu("Lobby");
+            Message = "";
         }
-
     }
 
     private void Lobby()
@@ -86,4 +96,5 @@ public class Menu : MonoBehaviour {
             ToMenu("Lobby");
         }
     }
+
 }

@@ -1,21 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Matchmaker : MonoBehaviour {
+public class Matchmaker : Singleton<Matchmaker> {
 
-    public static Matchmaker Instance;
+    protected Matchmaker() {}
+
+    public bool gameStarted;
 
 	// Use this for initialization
 	void Start () {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+
+        gameStarted = false;
 
         PhotonNetwork.logLevel = PhotonLogLevel.Full;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
     public void MakeMatch()
@@ -27,14 +24,6 @@ public class Matchmaker : MonoBehaviour {
 
     public void StopMatchmaking()
     {
-        if (PhotonNetwork.inRoom)
-        {
-            PhotonNetwork.LeaveRoom();
-        }
-        if (PhotonNetwork.insideLobby)
-        {
-            PhotonNetwork.LeaveLobby();
-        }
         if (PhotonNetwork.connected)
         {
             PhotonNetwork.Disconnect();
@@ -73,7 +62,9 @@ public class Matchmaker : MonoBehaviour {
         if (PhotonNetwork.room.playerCount == 2)
         {
             Debug.Log("Room Full");
-            Menu.Instance.StartGame();
+            PhotonNetwork.LoadLevel("Game");
+            Menu.Instance.ToMenu("InGame");
+            gameStarted = true;
         }
         else
         {
@@ -87,7 +78,9 @@ public class Matchmaker : MonoBehaviour {
         if (PhotonNetwork.room.playerCount == 2)
         {
             Debug.Log("Room Full");
-            Menu.Instance.StartGame();
+            PhotonNetwork.LoadLevel("Game");
+            Menu.Instance.ToMenu("InGame");
+            gameStarted = true;
         }
         else
         {
