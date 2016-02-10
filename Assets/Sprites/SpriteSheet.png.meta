@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 55719972699e84e4092f71e3d5cb2c66
-timeCreated: 1455066075
+guid: a2f44044267505047aa641bbe0e4cfd0
+timeCreated: 1455065958
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: BoardTile_0
-    21300002: BoardTile_1
-    21300004: BoardTile_2
+    21300000: SpriteSheet_0
+    21300002: SpriteSheet_1
+    21300004: SpriteSheet_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -47,13 +47,13 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 512
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: BoardTile_0
+    - name: SpriteSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -64,11 +64,20 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -256, y: 256}
-        - {x: -256, y: -256}
-        - {x: 256, y: -256}
-        - {x: 256, y: 256}
-    - name: BoardTile_1
+      - - {x: 61, y: 90}
+        - {x: -51, y: 90}
+        - {x: -83, y: 80}
+        - {x: -90, y: 61}
+        - {x: -90, y: -32}
+        - {x: -84, y: -62}
+        - {x: -58, y: -78}
+        - {x: -28, y: -91}
+        - {x: 33, y: -91}
+        - {x: 63, y: -84}
+        - {x: 90, y: -40}
+        - {x: 90, y: 29}
+        - {x: 79, y: 62}
+    - name: SpriteSheet_1
       rect:
         serializedVersion: 2
         x: 512
@@ -83,7 +92,7 @@ TextureImporter:
         - {x: -256, y: -256}
         - {x: 256, y: -256}
         - {x: 256, y: 256}
-    - name: BoardTile_2
+    - name: SpriteSheet_2
       rect:
         serializedVersion: 2
         x: 1024

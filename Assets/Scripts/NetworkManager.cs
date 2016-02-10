@@ -5,9 +5,16 @@ public class NetworkManager : Singleton<NetworkManager> {
 
     protected NetworkManager() {}
 
+    public bool hasToInitGame
+    {
+        get{
+            return PhotonNetwork.player.isMasterClient;
+        }
+    }
+
 	// Use this for initialization
-	void Start () {
-	
+	void Awake () {
+        PhotonNetwork.OnEventCall += this.OnInitializedBoard;
 	}
 	
 	// Update is called once per frame
@@ -29,18 +36,36 @@ public class NetworkManager : Singleton<NetworkManager> {
         Menu.Instance.ToMenu("Main");
     }
 
+    void OnInitializedBoard(byte eventcode, object content, int senderid)
+    {
+        if (eventcode == (byte) EventCode.InitializedBoard)
+        {
+            
+        }
+    }
+
     /*
      * public Methods
      */
 
-    public int getBoardSize()
+    public int[] getBoardSize()
     {
         int boardSize = (int) PhotonNetwork.room.customProperties["boardSize"];
-        return boardSize;
+        Debug.Log("BoardSize: " + boardSize);
+        return new int[]{boardSize, boardSize};
     }
 
-    public bool HasToInitGame()
+    public void FinishedInitBoard(int boardRows, int boardColumns)
     {
-        return PhotonNetwork.player.isMasterClient;
+        byte evCode = (byte) EventCode.InitializedBoard;
+        byte content = 0;
+        bool reliable = true;
+        PhotonNetwork.RaiseEvent(evCode, content, reliable, null);
     }
+}
+
+public enum EventCode : byte
+{
+    InitializedBoard = 0,
+    InitializedGame = 1
 }

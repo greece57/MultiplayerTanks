@@ -8,7 +8,6 @@ public class MenuLoader : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        Debug.Log("Awake!");
 
         if (Menu.Instance == null)
         {

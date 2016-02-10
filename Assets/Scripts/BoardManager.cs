@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
 
+    public static readonly float BOARD_Z_VALUE = 0;
+
     public int boardRows;
     public int boardColumns;
 
@@ -22,9 +24,9 @@ public class BoardManager : MonoBehaviour {
     {
         boardHolder = new GameObject("Board").transform;
 
-        for (int x = 0; x <= boardRows; x++)
+        for (int x = 0; x < boardRows; x++)
         {
-            for (int y = 0; y <= boardColumns; y++)
+            for (int y = 0; y < boardColumns; y++)
             {
                 Vector2 newPosition = new Vector2(x, y);
 
@@ -32,17 +34,22 @@ public class BoardManager : MonoBehaviour {
                 if (obsticals.Contains(newPosition))
                 {
                     instance =
-                            PhotonNetwork.Instantiate("BoardTileObstical", new Vector3(x, y, 0f), Quaternion.identity, 0) as GameObject;
+                            PhotonNetwork.Instantiate("BoardTileObstical", new Vector3(x, y, BOARD_Z_VALUE), Quaternion.identity, 0) as GameObject;
                 }
                 else
                 {
                     instance =
-                            PhotonNetwork.Instantiate("BoardTile", new Vector3(x, y, 0f), Quaternion.identity, 0) as GameObject;
+                            PhotonNetwork.Instantiate("BoardTile", new Vector3(x, y, BOARD_Z_VALUE), Quaternion.identity, 0) as GameObject;
                 }
 
                 instance.transform.SetParent(boardHolder);
             }
         }
+
+        // release obsticals
+        obsticals = null;
+
+        NetworkManager.Instance.FinishedInitBoard(boardRows, boardColumns);
 
     }
 
