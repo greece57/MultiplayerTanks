@@ -66,7 +66,7 @@ public class Matchmaker : Singleton<Matchmaker> {
 
     void OnJoinedRoom()
     {
-        if (PhotonNetwork.room.playerCount == 2)
+        if (PhotonNetwork.room.playerCount == 1)
         {
             Debug.Log("Room Full");
             PhotonNetwork.LoadLevel("Game");
